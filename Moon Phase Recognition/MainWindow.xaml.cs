@@ -1,26 +1,14 @@
 ﻿using Microsoft.Win32;
 using Moon_Phase_Recognition.Helpers;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Moon_Phase_Recognition
 {
     public partial class MainWindow : Window
     {
         private string filename;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -49,12 +37,12 @@ namespace Moon_Phase_Recognition
                 Bitmap OriginalBitmap = new Bitmap(filename);
                 Bitmap EditedBitmap = new Bitmap(OriginalBitmap.Width, OriginalBitmap.Height);
 
-                // Contrast Stretch
+                // Color to Grayscale Color and Contrast Stretch
                 EditedBitmap = Converter.ConvertColorToGrayscale(OriginalBitmap);
                 EditedBitmap = Stretcher.ApplyContrastStretch(EditedBitmap);
                 StretchedImage.Source = Converter.ConvertBitmapToBitmapImage(EditedBitmap);
 
-                // Otsu Threshold
+                // Otsu's Optimal Threshold
                 EditedBitmap = Thresholder.ApplyOtsuThreshold(EditedBitmap);
                 ThresholdedImage.Source = Converter.ConvertBitmapToBitmapImage(EditedBitmap);
 
@@ -83,19 +71,19 @@ namespace Moon_Phase_Recognition
                 }
                 else if (whitePercentage > 45)
                 {
-                    PhaseBlock.Text = "Three-Quarter Moon";
+                    PhaseBlock.Text = "Waxing Gibbous / Waning Gibbous";
                 }
                 else if (whitePercentage > 25)
                 {
-                    PhaseBlock.Text = "Half Moon";
+                    PhaseBlock.Text = "First Quarter / Third Quarter";
                 }
                 else if (whitePercentage > 6)
                 {
-                    PhaseBlock.Text = "A Quarter Moon";
+                    PhaseBlock.Text = "Waxing Crescent / Waning Crescent";
                 }
                 else
                 {
-                    PhaseBlock.Text = "Full Moon";
+                    PhaseBlock.Text = "New Moon";
                 }
             }
         }
